@@ -10,15 +10,19 @@ services:
       - "8081:8081"
     env_file: .env-example
     # depends_on:
-    #   - postgres
+    #   - db
   client:
     build:
       context: client
       target: dev
     volumes:
       - ./client:/app
+      - '/app/node_modules'
     ports:
       - "3000:3000"
+    stdin_open: true # This will fix issue on new react-scripts
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   # db:
   #   build: db
   #   volumes:
